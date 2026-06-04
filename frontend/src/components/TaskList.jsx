@@ -48,27 +48,30 @@ export default function TaskList({ refreshTrigger }) {
 
   return (
     <div>
-      <div className="mb-6 flex justify-between items-center">
-        <h2 className="text-2xl font-bold">
-          Tasks <span className="text-gray-400 text-lg">({tasks.length})</span>
-        </h2>
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h2 className="text-3xl font-bold font-display text-gray-900">
+            Your Tasks
+          </h2>
+          <p className="text-gray-500 mt-1 text-sm font-medium">{tasks.length} {tasks.length === 1 ? 'task' : 'tasks'} total</p>
+        </div>
         <button
           onClick={loadTasks}
-          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition-colors"
+          className="btn-primary flex items-center gap-2"
         >
-          Refresh
+          🔄 Refresh
         </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
-          {error}
+        <div className="bg-red-50 border-l-4 border-danger text-red-700 px-4 py-3 rounded-lg mb-4 text-sm font-medium">
+          ⚠️ {error}
         </div>
       )}
 
       {tasks.length === 0 ? (
-        <div className="bg-gray-50 rounded-lg p-8 text-center text-gray-500">
-          <p className="text-lg">No tasks yet. Create your first task above!</p>
+        <div className="card p-12 text-center">
+          <p className="text-gray-500 text-lg font-medium">✨ No tasks yet. Create your first one above!</p>
         </div>
       ) : (
         <div className="grid gap-4">

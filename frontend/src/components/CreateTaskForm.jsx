@@ -44,66 +44,66 @@ export default function CreateTaskForm({ onTaskCreated }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-      <h2 className="text-2xl font-bold mb-4">Create New Task</h2>
+    <div className="card p-8 mb-8">
+      <h2 className="text-3xl font-bold font-display mb-6 text-gray-900">Create New Task</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Task Title *
           </label>
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter task title"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            placeholder="What do you need to accomplish?"
+            className="input-field"
             disabled={loading}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Description
           </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter task description (optional)"
+            placeholder="Add more details... (optional)"
             rows="3"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="input-field resize-none"
             disabled={loading}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Deadline (Optional)
           </label>
           <input
             type="datetime-local"
             value={deadline}
             onChange={(e) => setDeadline(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="input-field"
             disabled={loading}
           />
           {deadline && (
-            <p className="text-sm text-gray-500 mt-1">
-              {new Date(deadline).toLocaleString()}
+            <p className="text-xs text-gray-500 mt-2 font-medium">
+              📅 {new Date(deadline).toLocaleString()}
             </p>
           )}
         </div>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-            {error}
+          <div className="bg-red-50 border-l-4 border-danger text-red-700 px-4 py-3 rounded-lg text-sm font-medium">
+            ⚠️ {error}
           </div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-6 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="w-full btn-primary text-lg"
         >
           {loading ? 'Creating Task...' : 'Create Task'}
         </button>

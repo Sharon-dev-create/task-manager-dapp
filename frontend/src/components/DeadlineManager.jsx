@@ -57,24 +57,24 @@ export default function DeadlineManager({ taskId, onUpdated }) {
       {!showForm ? (
         <button
           onClick={() => setShowForm(true)}
-          className="text-sm text-primary hover:text-blue-700 font-medium"
+          className="text-sm text-primary hover:text-primary-dark font-semibold transition-colors"
         >
           ⏰ Set/Update Deadline
         </button>
       ) : (
-        <div className="space-y-2">
+        <div className="space-y-3">
           <form onSubmit={handleSetDeadline} className="flex gap-2">
             <input
               type="datetime-local"
               value={newDeadline}
               onChange={(e) => setNewDeadline(e.target.value)}
-              className="flex-1 px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary text-sm"
+              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm font-medium"
               disabled={loading}
             />
             <button
               type="submit"
               disabled={loading}
-              className="px-3 py-1 bg-primary text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 text-sm"
+              className="px-4 py-2 btn-primary text-sm"
             >
               {loading ? 'Saving...' : 'Set'}
             </button>
@@ -86,22 +86,22 @@ export default function DeadlineManager({ taskId, onUpdated }) {
                 setError('');
               }}
               disabled={loading}
-              className="px-3 py-1 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 disabled:opacity-50 text-sm"
+              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium text-sm transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
           </form>
 
           {error && (
-            <div className="text-red-600 text-xs">{error}</div>
+            <div className="text-red-600 text-xs font-medium">{error}</div>
           )}
 
           <button
             onClick={handleRemoveDeadline}
             disabled={loading}
-            className="text-xs text-danger hover:text-red-700 font-medium"
+            className="text-xs text-danger hover:text-red-700 font-semibold transition-colors"
           >
-            Remove Deadline
+            🗑️ Remove Deadline
           </button>
         </div>
       )}

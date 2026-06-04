@@ -5,14 +5,12 @@ export default function Header() {
   const { isConnected, account, connectWallet, disconnectWallet, isCorrectNetwork, switchToSepolia, loading } = useWeb3();
 
   return (
-    <header className="bg-gradient-to-r from-primary to-blue-600 text-white shadow-lg">
+    <header className="bg-gradient-to-br from-primary via-primary-dark to-indigo-600 text-white shadow-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">TaskManager</h1>
-            <p className="text-blue-100 mt-1">Decentralized Task Management on Blockchain</p>
-          </div>
-
+          <h1 className="text-4xl font-bold font-display tracking-tight">TaskManager</h1>
+          <p className="text-indigo-100 mt-2 text-sm font-medium">Decentralized Task Management on Blockchain</p>
           <div className="flex items-center gap-3">
             {isConnected && !isCorrectNetwork && (
               <button

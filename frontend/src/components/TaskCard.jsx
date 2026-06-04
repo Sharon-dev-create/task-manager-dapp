@@ -108,12 +108,12 @@ export default function TaskCard({ task, onTaskUpdated }) {
 
   return (
     <div
-      className={`rounded-lg shadow-md p-6 border-l-4 transition-all ${
+      className={`card p-6 border-l-4 transition-all duration-300 ${
         task.completed
-          ? 'bg-gray-50 border-gray-300'
+          ? 'bg-gray-50 border-gray-300 opacity-75'
           : isOverdue
           ? 'bg-red-50 border-danger'
-          : 'bg-white border-primary'
+          : 'bg-white border-primary hover:shadow-xl'
       }`}
     >
       <div className="flex items-start justify-between mb-4">
@@ -169,9 +169,9 @@ export default function TaskCard({ task, onTaskUpdated }) {
               <button
                 onClick={handleUpdate}
                 disabled={loading}
-                className="px-3 py-1 bg-secondary text-white rounded-lg hover:bg-green-600 disabled:opacity-50 text-sm"
+                className="btn-small bg-secondary hover:bg-secondary-dark text-white font-semibold"
               >
-                Save
+                ✓ Save
               </button>
               <button
                 onClick={() => {
@@ -180,9 +180,9 @@ export default function TaskCard({ task, onTaskUpdated }) {
                   setEditDescription(task.description);
                 }}
                 disabled={loading}
-                className="px-3 py-1 bg-gray-400 text-white rounded-lg hover:bg-gray-500 disabled:opacity-50 text-sm"
+                className="btn-small bg-gray-400 hover:bg-gray-500 text-white font-semibold"
               >
-                Cancel
+                ✕ Cancel
               </button>
             </>
           ) : (
@@ -211,12 +211,12 @@ export default function TaskCard({ task, onTaskUpdated }) {
       {/* Deadline Section */}
       {task.deadline && Number(task.deadline) > 0 && (
         <div
-          className={`mb-4 p-3 rounded-lg text-sm ${
-            isOverdue ? 'bg-red-100 border border-red-300' : 'bg-blue-50 border border-blue-200'
+          className={`mb-4 p-4 rounded-lg text-sm font-medium ${
+            isOverdue ? 'bg-red-100 border-l-4 border-danger' : 'bg-blue-50 border-l-4 border-primary'
           }`}
         >
-          <p className="font-semibold">
-            {isOverdue ? '⏰ OVERDUE' : '📅 Due:'} {formatDeadline(task.deadline)}
+          <p className="font-semibold text-gray-900">
+            {isOverdue ? '⏰ OVERDUE' : '📅 Due'}: {formatDeadline(task.deadline)}
           </p>
           {timeRemaining !== null && timeRemaining >= 0 && (
             <p className="text-gray-600">{formatTimeRemaining(timeRemaining)} remaining</p>
@@ -227,19 +227,19 @@ export default function TaskCard({ task, onTaskUpdated }) {
       {/* Status Badge */}
       <div className="flex items-center gap-2 mb-3">
         {task.completed && (
-          <span className="inline-block bg-secondary text-white text-xs font-semibold px-3 py-1 rounded-full">
+          <span className="inline-block bg-green-500 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md">
             ✓ Completed
           </span>
         )}
         {isOverdue && !task.completed && (
-          <span className="inline-block bg-danger text-white text-xs font-semibold px-3 py-1 rounded-full">
-            Overdue
+          <span className="inline-block bg-danger text-white text-xs font-bold px-4 py-1 rounded-full shadow-md">
+            ⚠️ Overdue
           </span>
         )}
       </div>
 
       {error && (
-        <div className="bg-red-100 border border-red-300 text-red-700 px-3 py-2 rounded-lg text-sm mb-3">
+        <div className="bg-red-100 border-l-4 border-danger text-red-700 px-4 py-2 rounded-lg text-sm mb-3 font-medium">
           {error}
         </div>
       )}
