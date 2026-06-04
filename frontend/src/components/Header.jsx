@@ -9,13 +9,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex justify-between items-center">
           <div>
-          <h1 className="text-4xl font-bold font-display tracking-tight">TaskManager</h1>
-          <p className="text-indigo-100 mt-2 text-sm font-medium">Decentralized Task Management on Blockchain</p>
+            <h1 className="text-4xl font-bold font-display tracking-tight">TaskManager</h1>
+            <p className="text-indigo-100 mt-2 text-sm font-medium">Decentralized Task Management on Blockchain</p>
+          </div>
+
           <div className="flex items-center gap-3">
             {isConnected && !isCorrectNetwork && (
               <button
                 onClick={switchToSepolia}
-                className="px-4 py-2 bg-warning text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 rounded-lg font-semibold transition-all duration-200 shadow-md"
               >
                 Switch to Sepolia
               </button>
@@ -24,12 +26,12 @@ export default function Header() {
             {isConnected ? (
               <>
                 <div className="text-right">
-                  <p className="text-sm opacity-90">Connected</p>
-                  <p className="font-mono text-sm">{account?.slice(0, 6)}...{account?.slice(-4)}</p>
+                  <p className="text-sm font-medium opacity-90">Connected</p>
+                  <p className="font-mono text-sm font-semibold tracking-wider">{account?.slice(0, 6)}...{account?.slice(-4)}</p>
                 </div>
                 <button
                   onClick={disconnectWallet}
-                  className="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold transition-all duration-200 shadow-md"
                 >
                   Disconnect
                 </button>
@@ -38,7 +40,7 @@ export default function Header() {
               <button
                 onClick={connectWallet}
                 disabled={loading}
-                className="px-6 py-2 bg-white text-primary font-semibold rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50"
+                className="px-6 py-2 bg-white text-primary font-semibold rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Connecting...' : 'Connect Wallet'}
               </button>

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "cd frontend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
     "deploy:ignition": "hardhat ignition deploy ignition/modules/TaskManagerDeployment.js --network sepolia",
