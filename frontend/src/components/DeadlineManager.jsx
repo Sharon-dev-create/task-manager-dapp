@@ -21,6 +21,7 @@ export default function DeadlineManager({ taskId, onUpdated }) {
       }
 
       const deadlineTimestamp = Math.floor(new Date(newDeadline).getTime() / 1000);
+      
       if (deadlineTimestamp <= Math.floor(Date.now() / 1000)) {
         setError('Deadline must be in the future');
         setLoading(false);
