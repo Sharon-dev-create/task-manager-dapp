@@ -5,7 +5,7 @@ import CreateTaskForm from './components/CreateTaskForm';
 import TaskList from './components/TaskList';
 
 function AppContent() {
-  const { isConnected, isCorrectNetwork } = useWeb3();
+  const { isConnected, isCorrectNetwork, error } = useWeb3();
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleTaskCreated = () => {
@@ -15,6 +15,14 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex flex-col">
       <Header />
+
+      {error && (
+        <div className="bg-red-50 border-t-4 border-red-500 px-4 py-4 sm:px-6">
+          <div className="max-w-7xl mx-auto">
+            <p className="text-red-700 font-semibold">Error: {error}</p>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
         {!isConnected ? (

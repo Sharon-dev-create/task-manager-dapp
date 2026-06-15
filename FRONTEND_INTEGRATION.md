@@ -10,7 +10,7 @@ npm install
 
 ### 2️⃣ Start Dev Server
 ```bash
-npm start
+npm start 
 ```
 
 The app will automatically open at `http://localhost:3000`

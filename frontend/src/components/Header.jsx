@@ -2,11 +2,18 @@ import React from 'react';
 import { useWeb3 } from '../context/Web3Context';
 
 export default function Header() {
-  const { isConnected, account, connectWallet, disconnectWallet, isCorrectNetwork, switchToSepolia, loading } = useWeb3();
+  const { isConnected, account, connectWallet, disconnectWallet, isCorrectNetwork, switchToSepolia, loading, error } = useWeb3();
+  const [showMetaMaskWarning, setShowMetaMaskWarning] = React.useState(!window.ethereum);
 
   return (
     <header className="bg-gradient-to-br from-primary via-primary-dark to-indigo-600 text-white shadow-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {showMetaMaskWarning && !isConnected && (
+          <div className="mb-4 bg-yellow-600 bg-opacity-80 px-4 py-3 rounded-lg text-sm">
+            <p className="font-semibold">⚠️ MetaMask not detected</p>
+            <p className="text-sm opacity-90">Please install the <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-70">MetaMask extension</a> to use this app.</p>
+          </div>
+        )}
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold font-display tracking-tight">TaskManager</h1>
@@ -39,7 +46,8 @@ export default function Header() {
             ) : (
               <button
                 onClick={connectWallet}
-                disabled={loading}
+                disabled={loading || !window.ethereum}
+                title={!window.ethereum ? "MetaMask not detected" : ""}
                 className="px-6 py-2 bg-white text-primary font-semibold rounded-lg hover:bg-gray-50 transition-all duration-200 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Connecting...' : 'Connect Wallet'}

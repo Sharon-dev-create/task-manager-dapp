@@ -12,17 +12,33 @@ export const Web3Provider = ({ children }) => {
   const [chainId, setChainId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [metamaskFound, setMetamaskFound] = useState(false);
 
   const connectWallet = async () => {
     setLoading(true);
     setError(null);
+    
     try {
       if (!window.ethereum) {
-        throw new Error('MetaMask not installed');
+        throw new Error('MetaMask is not installed. Please install the MetaMask extension to use this app.');
+      }
+
+      // Request accounts from MetaMask
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      }).catch(err => {
+        // User rejected the request
+        if (err.code === 4001) {
+          throw new Error('You rejected the connection request');
+        }
+        throw err;
+      });
+      
+      if (!accounts || accounts.length === 0) {
+        throw new Error('No accounts found. Please unlock MetaMask.');
       }
 
       const browserProvider = new BrowserProvider(window.ethereum);
-      const accounts = await browserProvider.send('eth_requestAccounts', []);
       const signerInstance = await browserProvider.getSigner();
       const network = await browserProvider.getNetwork();
 
@@ -30,6 +46,7 @@ export const Web3Provider = ({ children }) => {
       setSigner(signerInstance);
       setAccount(accounts[0]);
       setChainId(Number(network.chainId));
+      setMetamaskFound(true);
 
       // Create contract instance
       const contractInstance = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signerInstance);
@@ -40,7 +57,8 @@ export const Web3Provider = ({ children }) => {
         setError('Please switch to Sepolia network');
       }
     } catch (err) {
-      setError(err.message);
+      const errorMessage = err?.message || 'Failed to connect to MetaMask';
+      setError(errorMessage);
       console.error('Connection error:', err);
     } finally {
       setLoading(false);
@@ -68,14 +86,17 @@ export const Web3Provider = ({ children }) => {
                   symbol: 'ETH',
                   decimals: 18,
                 },
-                rpcUrls: ['https://sepolia.infura.io/v3/'],
+                rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_KEY', 'https://sepolia.alchemy.com/v2/YOUR_ALCHEMY_KEY'],
                 blockExplorerUrls: ['https://sepolia.etherscan.io'],
               },
             ],
           });
         } catch (addErr) {
           setError('Failed to add Sepolia network');
+          console.error('Add network error:', addErr);
         }
+      } else {
+        console.error('Switch chain error:', err);
       }
     }
   };
@@ -86,36 +107,70 @@ export const Web3Provider = ({ children }) => {
     setContract(null);
     setAccount(null);
     setChainId(null);
+    setError(null);
   };
 
   useEffect(() => {
+    // Only auto-connect if MetaMask is available
+    if (!window.ethereum) {
+      console.log('MetaMask not available');
+      return;
+    }
+
+    setMetamaskFound(true);
+
     // Check if already connected
     const checkConnection = async () => {
-      if (window.ethereum) {
-        try {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+        if (accounts && accounts.length > 0) {
           const browserProvider = new BrowserProvider(window.ethereum);
-          const accounts = await browserProvider.listAccounts();
-          if (accounts.length > 0) {
-            await connectWallet();
-          }
-        } catch (err) {
-          console.log('Not connected');
+          const signerInstance = await browserProvider.getSigner();
+          const network = await browserProvider.getNetwork();
+
+          setProvider(browserProvider);
+          setSigner(signerInstance);
+          setAccount(accounts[0]);
+          setChainId(Number(network.chainId));
+
+          // Create contract instance
+          const contractInstance = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signerInstance);
+          setContract(contractInstance);
         }
+      } catch (err) {
+        console.log('Auto-connect failed:', err.message);
       }
     };
 
     checkConnection();
 
     // Listen for account changes
-    if (window.ethereum) {
-      window.ethereum.on('accountsChanged', connectWallet);
-      window.ethereum.on('chainChanged', connectWallet);
+    const handleAccountsChanged = (accounts) => {
+      if (accounts.length === 0) {
+        // User disconnected
+        disconnectWallet();
+      } else {
+        // Account changed, reconnect
+        checkConnection();
+      }
+    };
 
-      return () => {
-        window.ethereum.removeListener('accountsChanged', connectWallet);
-        window.ethereum.removeListener('chainChanged', connectWallet);
-      };
-    }
+    const handleChainChanged = () => {
+      // Chain changed, reconnect to update network info
+      checkConnection();
+    };
+
+    window.ethereum.on('accountsChanged', handleAccountsChanged);
+    window.ethereum.on('chainChanged', handleChainChanged);
+
+    return () => {
+      try {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener('chainChanged', handleChainChanged);
+      } catch (err) {
+        console.log('Error removing listeners:', err);
+      }
+    };
   }, []);
 
   const value = {
