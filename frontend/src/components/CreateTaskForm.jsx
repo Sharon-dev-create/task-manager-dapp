@@ -23,9 +23,7 @@ export default function CreateTaskForm({ onTaskCreated }) {
 
       let deadlineTimestamp = 0;
       console.log("title:", title);
-console.log("description:", description);
-console.log("deadline:", deadline);
-console.log("type:", typeof deadline);
+
       if (deadline) {
         deadlineTimestamp = Math.floor(new Date(deadline).getTime() / 1000);
         if (deadlineTimestamp <= Math.floor(Date.now() / 1000)) {

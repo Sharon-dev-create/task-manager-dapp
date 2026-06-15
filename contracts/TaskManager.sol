@@ -37,7 +37,7 @@ contract TaskManager{
   // Functions
   function createTask(string calldata title, string calldata description, uint256 deadline) external {
     require(bytes(title).length > 0, "Title cannot be empty");
-    require(deadline == 0 || deadline > block.timestamp, "Deadline must be in the future");
+    // require(deadline == 0 || deadline > block.timestamp, "Deadline must be in the future");
     uint256 taskId = nextTaskId;
 
     tasks[taskId] = Task({
