@@ -86,7 +86,7 @@ export const Web3Provider = ({ children }) => {
                   symbol: 'ETH',
                   decimals: 18,
                 },
-                rpcUrls: ['https://sepolia.infura.io/v3/YOUR_INFURA_KEY', 'https://sepolia.alchemy.com/v2/YOUR_ALCHEMY_KEY'],
+                rpcUrls: ['https://eth-sepolia.g.alchemy.com/v2/QBzpsl7E_1rFjodxHnHfvCll_1QgRqG4', 'https://eth-sepolia.g.alchemy.com/v2/QBzpsl7E_1rFjodxHnHfvCll_1QgRqG4'],
                 blockExplorerUrls: ['https://sepolia.etherscan.io'],
               },
             ],
