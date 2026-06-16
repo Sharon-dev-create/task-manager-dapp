@@ -8,5 +8,4 @@
     "REACT_APP_CONTRACT_ADDRESS": "@contract_address",
     "REACT_APP_NETWORK_ID": "@network_id"
   },
-  "envPrefix": "REACT_APP_"
 }
