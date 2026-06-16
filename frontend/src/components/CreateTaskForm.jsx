@@ -33,14 +33,15 @@ export default function CreateTaskForm({ onTaskCreated }) {
         }
       }
 
-      await createTask(title, description, deadlineTimestamp);
+      await createTask(title.trim(),
+       description || "", deadlineTimestamp );
       setTitle('');
       setDescription('');
       setDeadline('');
       onTaskCreated?.();
     } catch (err) {
       setError(err.message);
-    } finally {
+    } finally { 
       setLoading(false);
     }
   };

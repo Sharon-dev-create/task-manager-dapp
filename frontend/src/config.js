@@ -1,5 +1,5 @@
-// Update this with your deployed contract address
-export const CONTRACT_ADDRESS = process.env.REACT_APP_CONTRACT_ADDRESS || '0x56f7C027f2762da19B6c6bd01b9c276f12b542D6';
+
+export const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || '0x114D7300ACDB33658bde6ebe0ab680eb3DE7A684';
 
 export const CONTRACT_ABI = [
   {
